@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  mysql:
+    image: mysql:8.3
+    container_name: canvas-mysql
+    restart: always
+    environment:
+      MYSQL_DATABASE: yfdecor
+      MYSQL_USER: yfuser
+      MYSQL_PASSWORD: yfpass
+      MYSQL_ROOT_PASSWORD: rootpass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+
+  backend:
+    build:
+      context: ./backend
+    container_name: canvas-backend
+    restart: always
+    depends_on:
+      - mysql
+    environment:
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/yfdecor
+      SPRING_DATASOURCE_USERNAME: yfuser
+      SPRING_DATASOURCE_PASSWORD: yfpass
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      context: ./FE
+    container_name: canvas-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  mysql_data:
