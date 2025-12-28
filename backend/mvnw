@@ -1,0 +1,23 @@
+#!/bin/sh
+
+# ----------------------------------------------------------------------------
+# Maven Wrapper shell script for UNIX-based systems
+# ----------------------------------------------------------------------------
+
+MVNW_REPOURL=https://repo.maven.apache.org/maven2
+MVNW_VERSION=3.9.6
+MVNW_BASEDIR="$(cd "$(dirname "$0")"; pwd)"
+MVNW_JAR="$MVNW_BASEDIR/.mvn/wrapper/maven-wrapper.jar"
+
+if [ ! -f "$MVNW_JAR" ]; then
+  echo "Apache Maven Wrapper not found. Downloading..."
+  mkdir -p "$MVNW_BASEDIR/.mvn/wrapper"
+  curl -o "$MVNW_JAR" "$MVNW_REPOURL/io/takari/maven-wrapper/$MVNW_VERSION/maven-wrapper-$MVNW_VERSION.jar"
+fi
+
+JAVA_EXE="java"
+if [ -n "$JAVA_HOME" ]; then
+  JAVA_EXE="$JAVA_HOME/bin/java"
+fi
+
+exec "$JAVA_EXE" -jar "$MVNW_JAR" "$@"
